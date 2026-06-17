@@ -1,0 +1,129 @@
+.transparent-toolbar {
+  --background: transparent;
+  --ion-color-base: transparent;
+  --ion-toolbar-background: transparent;
+  backdrop-filter: blur(10px);
+  box-shadow: none;
+}
+
+:root {
+  --ion-color-primary: #115830;
+  --ion-color-primary-rgb: 26, 122, 60;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #156b34;
+  --ion-color-primary-tint: #318750;
+
+  --ion-color-secondary: #008000;
+  --ion-color-tertiary: #115830;
+  --ion-color-success: #2dd36f;
+}
+
+.input-field {
+  --background: var(--ion-color-light);
+  --color: var(--ion-color-dark);
+  --placeholder-color: var(--ion-color-medium);
+  --border-radius: 8px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  border: 1.5px solid #1a7a3c;
+  border-radius: 8px;
+  margin: 15px 20px;
+}
+
+.checkbox-field {
+  --border-radius: 8px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  margin: 15px 20px;
+}
+
+.floating-label-dark {
+  --color: var(--ion-color-dark);
+  --placeholder-color: var(--ion-color-medium);
+  --background: var(--ion-color-light);
+  --border-radius: 8px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+.custom-button {
+  --background: #1a7a3c;
+  --color: white;
+  --border-radius: 8px;
+  --padding: 12px 24px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  margin: 15px 20px;
+}
+
+.logo-image {
+  width: 200px;
+  height: auto;
+  margin: 10px auto;
+  display: block;
+}
+
+.ion-text-center {
+  text-align: center;
+  color: dimgray;
+  display: block;
+  margin: 30px auto 0 auto;
+  font-size: large;
+}
+
+.custom-card {
+  box-shadow: none;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.custom-dropdown ion-select {
+  --border-radius: 8px;
+  --background: #fff;
+}
+
+ion-button {
+  font-weight: 600;
+  --border-radius: 8px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+@media print {
+  .custom-dropdown,
+  ion-button,
+  ion-icon,
+  .ion-margin-top {
+    display: none !important;
+  }
+
+  .print-card {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .print-card h2,
+  .print-card ion-card-title,
+  .print-card p {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14pt;
+  }
+
+  .print-card {
+    page-break-inside: avoid;
+  }
+
+  ion-header,
+  ion-footer,
+  .non-printable {
+    display: none !important;
+  }
+}
