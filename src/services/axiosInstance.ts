@@ -13,10 +13,18 @@ export const setAxiosLogout = (fn: () => void) => {
 };
 
 // Response interceptor — kapag 401, automatic logout
+//
+// Hindi kasama ang /auth/* endpoints (login, forgot/reset/change password)
+// dito — 401 doon ay nangangahulugang MALI ang credentials/OTP, hindi
+// dahil expired ang session, kaya hindi dapat mag-trigger ng logout/
+// "session expired" flow. Ang caller (Login.tsx) mismo ang bahalang
+// magpakita ng tamang error message.
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401 && logoutFn) {
+    const url: string = error.config?.url ?? "";
+    if (error.response?.status === 401 && logoutFn && !url.includes("/auth/")) {
+      sessionStorage.setItem("sessionExpired", "1");
       logoutFn();
     }
     return Promise.reject(error);

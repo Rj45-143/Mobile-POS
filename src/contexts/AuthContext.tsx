@@ -2,37 +2,16 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Preferences } from "@capacitor/preferences";
 import Loading from "../components/Loading";
 import { setAxiosLogout } from "../services/axiosInstance";
+import { LoginResponse, LoginUser } from "../services/apiService";
 
-interface User {
-  _id: string;
-  username: string;
-  role: string;
-  email: string;
-  contactNumber: string;
-  companyName: string;
-  companyId: string;
-  status: string;
-  isAssign: boolean;
-  location: {
-    type: string;
-    coordinates: number[];
-  };
-  createdAt: string;
-  updatedAt: string;
-  [key: string]: any;
-}
-
-interface StoredUser {
-  user: User;
-  access_token: string;
-}
+type StoredUser = LoginResponse;
 
 interface AuthContextType {
   isAuthenticated: boolean;
   login: (userData: StoredUser) => Promise<void>;
   logout: () => Promise<void>;
   initialized: boolean;
-  user: User | null;
+  user: LoginUser | null;
   token: string | null;
 }
 
@@ -42,7 +21,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<LoginUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {

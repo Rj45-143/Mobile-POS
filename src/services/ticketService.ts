@@ -27,10 +27,16 @@ export interface TicketPayload {
   routeName?: string;
 }
 
+export interface TicketSaveResponse {
+  _id: string;
+  refNumber: string;
+  [key: string]: unknown;
+}
+
 export const saveTicket = async (
   ticketData: TicketPayload,
   token: string
-): Promise<any | null> => {
+): Promise<TicketSaveResponse | null> => {
   try {
     const response = await axiosInstance.post("/tickets", ticketData, {
       headers: {
@@ -39,11 +45,12 @@ export const saveTicket = async (
     });
 
     return response.data;
-  } catch (error: any) {
+  } catch (error) {
+    const axiosError = error as { response?: { data?: unknown }; message?: string };
     console.error(
       "Ticket save error:",
-      JSON.stringify(error.response?.data || error.message, null, 2)
+      JSON.stringify(axiosError.response?.data || axiosError.message, null, 2)
     );
-    throw error.response?.data || error;
+    throw axiosError.response?.data || error;
   }
 };

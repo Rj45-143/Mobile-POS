@@ -7,6 +7,10 @@ interface UseLocationTrackerOptions {
   userId: string | undefined;
   token: string | undefined | null;
   enabled: boolean;
+  // Called for user-facing failures only (permission denied, tracker
+  // failed to start) — NOT for every transient location-update API call,
+  // since those retry on the next watchPosition tick and would spam the UI.
+  onError?: (message: string) => void;
 }
 
 const getDistanceInMeters = (
@@ -31,10 +35,17 @@ export const useLocationTracker = ({
   userId,
   token,
   enabled,
+  onError,
 }: UseLocationTrackerOptions) => {
   const watchIdRef = useRef<string | null>(null);
   const lastPositionRef = useRef<{ lat: number; lng: number } | null>(null);
   const lastSentTimeRef = useRef<number>(0);  // ← track kung kailan last na-send
+
+  // Ref para hindi kailangang isama sa effect deps — kung caller ay
+  // nagpapasa ng bagong inline function kada render, hindi na
+  // mare-restart ang buong watchPosition subscription.
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
 
   useEffect(() => {
     if (!enabled || !userId || !token) return;
@@ -47,6 +58,7 @@ export const useLocationTracker = ({
           permission.coarseLocation !== "granted"
         ) {
           console.warn("Location permission not granted.");
+          onErrorRef.current?.("Location permission not granted. Your position won't be tracked.");
           return;
         }
 
@@ -102,6 +114,7 @@ export const useLocationTracker = ({
         );
       } catch (err) {
         console.error("Failed to start location tracking:", err);
+        onErrorRef.current?.("Failed to start location tracking.");
       }
     };
 

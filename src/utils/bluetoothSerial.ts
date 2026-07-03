@@ -76,20 +76,20 @@ Time:   ${ticket.timestamp}
 
 ==============================
 `;
-const preQrText = `May reklamo? I-scan ang QR:\n`;
+const preQrText = `Scan the QR for your feedback:\n`;
 
   const footerText = `Thank you for riding with us!\n\n\n\n\n`;
 
-  const COMPLAINT_QR_URL =
-    `https://www.ikomyut.com/passenger-complaint` +
+  const FEEDBACK_QR_URL =
+    `https://www.ikomyut.com/passenger-feedback` +
     `?plateNumber=${encodeURIComponent(ticket.plateNumber)}` +
     `&refNumber=${encodeURIComponent(ticket.refNumber)}` +
-    `&driverUsername=${encodeURIComponent(ticket.driverUsername ?? '')}` +
-    `&conductorUsername=${encodeURIComponent(ticket.conductorUsername ?? '')}` +
+    `&driver=${encodeURIComponent(ticket.driverUsername ?? '')}` +
+    `&conductor=${encodeURIComponent(ticket.conductorUsername ?? '')}` +
     `&bodyNumber=${encodeURIComponent(ticket.bodyNumber ?? '')}` +
     `&unitCode=${encodeURIComponent(ticket.unitCode ?? '')}`;
 
-  const qrBytes = buildQRCode(COMPLAINT_QR_URL);
+  const qrBytes = buildQRCode(FEEDBACK_QR_URL);
 
   const encodedHeader = encodeText(headerText);
   const encodedTicket = encodeText(ticketText);
